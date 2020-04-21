@@ -11,16 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.boost.redditclone.TopicListAdapter.TopicListViewHolder
 import com.boost.redditclone.databinding.ItemTopicContentBinding
 
-class TopicListAdapter(viewModel: HomeViewModel) :
-    ListAdapter<TopicContent, TopicListViewHolder>(ListItemCallback()) {
-    private var viewModel = viewModel
+/*
+* Adapter for recyclerview in HomeFragment to show list of topics
+* */
 
-    class ListItemCallback : DiffUtil.ItemCallback<TopicContent>() {
-        override fun areItemsTheSame(oldItem: TopicContent, newItem: TopicContent): Boolean {
+class TopicListAdapter(viewModel: HomeViewModel) :
+    ListAdapter<TopicModel, TopicListViewHolder>(ListItemCallback()) {
+    val viewModel = viewModel
+    class ListItemCallback : DiffUtil.ItemCallback<TopicModel>() {
+        override fun areItemsTheSame(oldItem: TopicModel, newItem: TopicModel): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: TopicContent, newItem: TopicContent): Boolean {
+        override fun areContentsTheSame(oldItem: TopicModel, newItem: TopicModel): Boolean {
             return oldItem.topic == newItem.topic
         }
     }
@@ -28,22 +31,20 @@ class TopicListAdapter(viewModel: HomeViewModel) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicListViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_topic_content, parent, false)
-        return TopicListViewHolder(view, viewModel)
+        return TopicListViewHolder(view)
     }
 
-    inner class TopicListViewHolder(view: View, viewModel: HomeViewModel) :
+    inner class TopicListViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
         var binding = ItemTopicContentBinding.bind(view)
-        fun setData(item: TopicContent, position: Int) {
-            binding.tvTopic.text = item.topic
-            binding.tvContent.text = item.content.take(50)
+        fun setData(item: TopicModel, position: Int) {
+            binding.tvTopic.text = item.topic.take(50)
             binding.tvUpNum.text = item.upvote.toString()
             binding.tvDownNum.text = item.downvote.toString()
 
             binding.clTopic.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("topic", item.topic)
-                bundle.putString("content", item.content)
                 bundle.putInt("upvote", item.upvote)
                 bundle.putInt("downvote", item.downvote)
                 Navigation.findNavController(itemView)
@@ -51,7 +52,12 @@ class TopicListAdapter(viewModel: HomeViewModel) :
             }
 
             binding.imgUp.setOnClickListener {
-                viewModel.addUpvote(item)
+                TopicModel.addUpVote(item)
+                viewModel.topicModelList.postValue(TopicModel.getTopicList())
+            }
+            binding.imgDown.setOnClickListener {
+                TopicModel.addDownVote(item)
+                viewModel.topicModelList.postValue(TopicModel.getTopicList())
             }
         }
 
@@ -62,8 +68,8 @@ class TopicListAdapter(viewModel: HomeViewModel) :
     }
 
 
-    override fun submitList(list: MutableList<TopicContent>?) {
-        super.submitList(list?.sortedBy { topicContent -> topicContent.upvote })
+    override fun submitList(list: MutableList<TopicModel>?) {
+        super.submitList(list?.sortedByDescending { topicContent -> topicContent.upvote }?.take(20))
     }
 }
 

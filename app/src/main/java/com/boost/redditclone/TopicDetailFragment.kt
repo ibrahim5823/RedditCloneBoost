@@ -1,29 +1,27 @@
 package com.boost.redditclone
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TopicDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment
+import com.boost.redditclone.databinding.FragmentTopicDetailBinding
+import kotlinx.android.synthetic.main.item_topic_content.view.*
+/*
+* Fragment to view expanded topic
+* */
 class TopicDetailFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
+    private var topic: String? = null
+    private var upvote: Int = 0
+    private var downvote: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            topic = it.getString("topic")
+            upvote = it.getInt("upvote")
+            downvote = it.getInt("downvote")
         }
     }
 
@@ -32,17 +30,29 @@ class TopicDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_topic_detail, container, false)
-    }
+        var bind = FragmentTopicDetailBinding.bind(
+            inflater.inflate(
+                R.layout.fragment_topic_detail,
+                container,
+                false
+            )
+        )
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TopicDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        bind.lTopic.clTopic.tv_topic.text = topic
+        bind.lTopic.clTopic.tv_up_num.text = upvote.toString()
+        bind.lTopic.clTopic.tv_down_num.text = downvote.toString()
+        bind.lTopic.clTopic.img_up.setOnClickListener(View.OnClickListener {
+            TopicModel.addUpVote(TopicModel(topic!!,upvote,downvote))
+            upvote++
+            bind.lTopic.clTopic.tv_up_num.text = upvote.toString()
+        })
+
+        bind.lTopic.clTopic.img_down.setOnClickListener(View.OnClickListener {
+            TopicModel.addDownVote(TopicModel(topic!!,upvote,downvote))
+            downvote++
+            bind.lTopic.clTopic.tv_up_num.text = upvote.toString()
+        })
+
+        return bind.root
     }
 }

@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardCornerRadius="10dp"
-    >
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_topic"
@@ -16,23 +15,14 @@
             android:id="@+id/tv_topic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
+            android:padding="15dp"
             android:text="This is Topic"
             android:textSize="20sp"
             android:textStyle="bold"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:padding="15dp"
-            android:text="This is Content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_topic" />
 
         <ImageButton
             android:id="@+id/img_up"
@@ -41,7 +31,7 @@
             android:src="@drawable/ic_baseline_thumb_up_24"
             app:layout_constraintEnd_toStartOf="@id/img_down"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_content" />
+            app:layout_constraintTop_toBottomOf="@id/tv_topic" />
 
         <TextView
             android:id="@+id/tv_up_num"
@@ -59,8 +49,7 @@
             android:src="@drawable/ic_baseline_thumb_down_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_up"
-            app:layout_constraintTop_toBottomOf="@id/tv_content" >
-        </ImageButton>
+            app:layout_constraintTop_toBottomOf="@id/tv_topic" />
 
         <TextView
             android:id="@+id/tv_down_num"

@@ -21,4 +21,9 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.boost.redditclone", appContext.packageName)
     }
+
+    @Test
+    fun test() {
+
+    }
 }
