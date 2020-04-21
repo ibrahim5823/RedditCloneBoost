@@ -43,7 +43,10 @@ class TopicListAdapter(viewModel: HomeViewModel) :
         RecyclerView.ViewHolder(view) {
         var binding = ItemTopicContentBinding.bind(view)
         fun setData(item: TopicModel, position: Int) {
-            binding.tvTopic.text = item.topic.take(50)
+            if (item.topic.length > 50)
+                binding.tvTopic.text = item.topic.take(50).plus("...")
+            else
+                binding.tvTopic.text = item.topic
             binding.tvUpNum.text = item.upvote.toString()
             binding.tvDownNum.text = item.downvote.toString()
 
@@ -61,9 +64,7 @@ class TopicListAdapter(viewModel: HomeViewModel) :
                 viewModel.topicModelList.postValue(TopicModel.getTopicList())
             }
             binding.imgDown.setOnClickListener {
-                TopicModel.addDownVote(
-                    item
-                )
+                TopicModel.addDownVote(item)
                 viewModel.topicModelList.postValue(TopicModel.getTopicList())
             }
         }

@@ -57,7 +57,7 @@ class TopicDetailFragment : Fragment() {
                 TopicModel(topic!!, upvote, downvote)
             )
             downvote++
-            bind.lTopic.clTopic.tv_up_num.text = upvote.toString()
+            bind.lTopic.clTopic.tv_down_num.text = downvote.toString()
         })
 
         return bind.root
