@@ -1,4 +1,4 @@
-package com.boost.redditclone
+package com.boost.redditclone.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.boost.redditclone.TopicListAdapter.TopicListViewHolder
+import com.boost.redditclone.R
+import com.boost.redditclone.model.TopicModel
+import com.boost.redditclone.home.TopicListAdapter.TopicListViewHolder
 import com.boost.redditclone.databinding.ItemTopicContentBinding
 
 /*
@@ -16,8 +18,11 @@ import com.boost.redditclone.databinding.ItemTopicContentBinding
 * */
 
 class TopicListAdapter(viewModel: HomeViewModel) :
-    ListAdapter<TopicModel, TopicListViewHolder>(ListItemCallback()) {
+    ListAdapter<TopicModel, TopicListViewHolder>(
+        ListItemCallback()
+    ) {
     val viewModel = viewModel
+
     class ListItemCallback : DiffUtil.ItemCallback<TopicModel>() {
         override fun areItemsTheSame(oldItem: TopicModel, newItem: TopicModel): Boolean {
             return oldItem == newItem
@@ -56,7 +61,9 @@ class TopicListAdapter(viewModel: HomeViewModel) :
                 viewModel.topicModelList.postValue(TopicModel.getTopicList())
             }
             binding.imgDown.setOnClickListener {
-                TopicModel.addDownVote(item)
+                TopicModel.addDownVote(
+                    item
+                )
                 viewModel.topicModelList.postValue(TopicModel.getTopicList())
             }
         }

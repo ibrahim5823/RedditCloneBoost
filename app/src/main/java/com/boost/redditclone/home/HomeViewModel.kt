@@ -1,8 +1,9 @@
-package com.boost.redditclone
+package com.boost.redditclone.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.boost.redditclone.model.TopicModel
+
 /*
 * ViewModel class to hold data for Topic list in HomeFragment
 * */
@@ -10,7 +11,7 @@ class HomeViewModel : ViewModel() {
     var topicModelList: MutableLiveData<List<TopicModel>> = MutableLiveData()
 
     init {
-     topicModelList = MutableLiveData(TopicModel.getTopicList())
+        topicModelList = MutableLiveData(TopicModel.getTopicList())
 //        topicModelList = MutableLiveData()
     }
 }

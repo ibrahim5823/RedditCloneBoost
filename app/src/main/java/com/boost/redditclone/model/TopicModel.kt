@@ -1,7 +1,6 @@
-package com.boost.redditclone
+package com.boost.redditclone.model
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 
 /*
 * data class to structure data
@@ -19,18 +18,19 @@ data class TopicModel(
     }
 
 
-
-     companion object getTopicModelList {
+    companion object getTopicModelList {
         var topicModelList: MutableList<TopicModel> = mutableListOf()
 
-         fun getTopicList(): MutableList<TopicModel> {
+        fun getTopicList(): MutableList<TopicModel> {
 
-             if (topicModelList.isEmpty()) {
-                 topicModelList.addAll(getExTopicContentList());
-             }
+            if (topicModelList.isEmpty()) {
+                topicModelList.addAll(
+                    getExTopicContentList()
+                )
+            }
 
-             return topicModelList
-         }
+            return topicModelList
+        }
 
         fun getExTopicContentList(): List<TopicModel> {
             var i = 0
@@ -52,19 +52,23 @@ data class TopicModel(
 
             val upvote = kotlin.random.Random.nextInt(0, 10)
             val downvote = kotlin.random.Random.nextInt(0, 10)
-            return TopicModel(topic, upvote, downvote)
+            return TopicModel(
+                topic,
+                upvote,
+                downvote
+            )
         }
 
-         fun addUpVote(item: TopicModel) {
-             topicModelList.find { topicContent -> topicContent == item }?.apply {
-                 this.upvote++
-             }
-         }
+        fun addUpVote(item: TopicModel) {
+            topicModelList.find { topicContent -> topicContent == item }?.apply {
+                this.upvote++
+            }
+        }
 
-         fun addDownVote(item: TopicModel) {
-             topicModelList.find { topicContent -> topicContent == item }?.apply {
-                 this.downvote++
-             }
-         }
+        fun addDownVote(item: TopicModel) {
+            topicModelList.find { topicContent -> topicContent == item }?.apply {
+                this.downvote++
+            }
+        }
     }
 }

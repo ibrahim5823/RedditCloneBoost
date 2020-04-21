@@ -1,4 +1,4 @@
-package com.boost.redditclone
+package com.boost.redditclone.home
 
 import android.os.Bundle
 import android.text.InputFilter
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.boost.redditclone.R
+import com.boost.redditclone.model.TopicModel
 import com.boost.redditclone.databinding.HomeFragmentBinding
 
 /*
@@ -35,7 +37,8 @@ class HomeFragment : Fragment() {
 
         binding = HomeFragmentBinding.bind(view)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        val topicListAdapter = TopicListAdapter(viewModel)
+        val topicListAdapter =
+            TopicListAdapter(viewModel)
         topicListAdapter.submitList(viewModel.topicModelList.value?.toMutableList())
 
         binding.rvHome.adapter = topicListAdapter
@@ -67,7 +70,9 @@ class HomeFragment : Fragment() {
         builder.setPositiveButton("Submit") { dialog, which ->
             val topic = edittext.text.toString().trim()
             if (topic.isNotEmpty()) {
-                TopicModel.topicModelList.add(TopicModel(topic, 0, 0))
+                TopicModel.topicModelList.add(
+                    TopicModel(topic, 0, 0)
+                )
                 viewModel.topicModelList.postValue(TopicModel.getTopicList())
             } else {
                 Toast.makeText(

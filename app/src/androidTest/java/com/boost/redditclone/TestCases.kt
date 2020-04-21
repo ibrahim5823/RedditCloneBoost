@@ -14,6 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
+import com.boost.redditclone.home.TopicListAdapter
 import kotlinx.android.synthetic.main.home_fragment.*
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
@@ -43,11 +44,20 @@ class TestCases {
     }
 
     @Test
-    fun expandTopicAndUpvote(){
+    fun expandTopicAndUpvote() {
         Thread.sleep(1000)
-        var itemCount = activityRule.activity.rv_home.adapter!!.itemCount-1
-        onView(withId(R.id.rv_home)).perform(RecyclerViewActions.scrollToPosition<TopicListAdapter.TopicListViewHolder>(itemCount))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<TopicListAdapter.TopicListViewHolder>(itemCount, click()))
+        var itemCount = activityRule.activity.rv_home.adapter!!.itemCount - 1
+        onView(withId(R.id.rv_home)).perform(
+            RecyclerViewActions.scrollToPosition<TopicListAdapter.TopicListViewHolder>(
+                itemCount
+            )
+        )
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<TopicListAdapter.TopicListViewHolder>(
+                    itemCount,
+                    click()
+                )
+            )
 
         onView(withId(R.id.img_up)).perform(click()).perform(doubleClick())
 
@@ -61,18 +71,18 @@ class TestCases {
 
     inner class ViewHolderBaseMatcher(view: View) :
         BaseMatcher<TopicListAdapter.TopicListViewHolder?>() {
-            private var itemMatcher: Matcher<View> = any(View::class.java)
+        private var itemMatcher: Matcher<View> = any(View::class.java)
 
-            override fun describeTo(description: Description?) {
-
-            }
-
-            override fun matches(item: Any?): Boolean {
-                val viewHolder = item as RecyclerView.ViewHolder
-                return itemMatcher.matches(viewHolder.itemView)
-            }
+        override fun describeTo(description: Description?) {
 
         }
+
+        override fun matches(item: Any?): Boolean {
+            val viewHolder = item as RecyclerView.ViewHolder
+            return itemMatcher.matches(viewHolder.itemView)
+        }
+
+    }
 
 
     @Suppress("UNCHECKED_CAST")
